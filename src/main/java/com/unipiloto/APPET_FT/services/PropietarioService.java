@@ -1,7 +1,6 @@
 package com.unipiloto.APPET_FT.services;
 
 import com.unipiloto.APPET_FT.models.Ejercicio;
-import com.unipiloto.APPET_FT.models.Historial;
 import com.unipiloto.APPET_FT.models.Mascota;
 import com.unipiloto.APPET_FT.models.Propietario;
 import com.unipiloto.APPET_FT.repositories.EjercicioRepository;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

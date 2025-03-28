@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class MascotaService {

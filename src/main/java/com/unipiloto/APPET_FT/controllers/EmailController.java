@@ -4,7 +4,6 @@ import com.unipiloto.APPET_FT.dtos.CorreoDTO;
 import com.unipiloto.APPET_FT.services.EmailService;
 import com.unipiloto.APPET_FT.services.MascotaService;
 import com.unipiloto.APPET_FT.services.PropietarioService;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
