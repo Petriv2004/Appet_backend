@@ -62,11 +62,10 @@ public class MascotaController {
     }
 
     @PostMapping("/registrarRecorrido/{idMascota}")
-    public ResponseEntity<List<Recorrido>> registrarRecorrido(@PathVariable Integer idMascota, @RequestBody List<Recorrido> recorridos) {
-
-        List<Recorrido> response = mascotaService.registrarRecorridos(idMascota, recorridos);
-        if(response != null){
-            return ResponseEntity.ok(response);
+    public ResponseEntity<Recorrido> registrarrecorrido(@PathVariable Integer idMascota, @RequestBody Recorrido recorridoL){
+        Recorrido recorrido = mascotaService.registrarRecorridos(idMascota, recorridoL);
+        if(recorrido != null){
+            return ResponseEntity.ok(recorrido);
         }
         return ResponseEntity.badRequest().build();
     }

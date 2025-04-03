@@ -215,27 +215,21 @@ public class MascotaService {
         return recorrido1;
     }
 
-    public List<Recorrido> registrarRecorridos(Integer idMascota, List<Recorrido> recorridos) {
-        if (recorridos == null || recorridos.isEmpty()) {
-            return null;
-        }
-
+    public Recorrido registrarRecorridos(Integer idMascota, Recorrido recorrido) {
         Optional<Mascota> mascotaOpt = mascotaRepository.findById(idMascota);
         if (mascotaOpt.isEmpty()) {
             return null;
         }
-        java.util.Date fechaOriginal = recorridos.get(0).getFecha();
+        java.util.Date fechaOriginal = recorrido.getFecha();
         Instant instant = fechaOriginal.toInstant();
         LocalDate fechaLocal = instant.atZone(ZoneId.of("UTC")).toLocalDate();
         java.sql.Date fechaSql = java.sql.Date.valueOf(fechaLocal);
 
         Mascota mascota = mascotaOpt.get();
-        for (Recorrido recorrido : recorridos) {
             recorrido.setMascota(mascota);
             recorrido.setFecha(fechaSql);
-        }
-        recorridoRepository.saveAll(recorridos);
-        return recorridos;
+        recorridoRepository.save(recorrido);
+        return recorrido;
     }
 
     public Mascota actualizarUbicacion(Integer idMascota) {
@@ -243,15 +237,16 @@ public class MascotaService {
 
         if (mascotaOpt.isPresent()) {
             Mascota mascota = mascotaOpt.get();
+            Date hoy = Date.valueOf(LocalDate.now());
+            List<Recorrido> recorridosExistentes = recorridoRepository.findByMascotaAndFecha(idMascota, hoy);
 
-            if (mascota.getLatitud() == 0 || mascota.getLongitud() == 0) {
-                mascota.setLatitud(4.710989);
-                mascota.setLongitud(-74.072092);
-            } else {
-                mascota.setLatitud(mascota.getLatitud() + (Math.random() - 0.5) * 0.0005);
-                mascota.setLongitud(mascota.getLongitud() + (Math.random() - 0.5) * 0.0005);
-            }
+            Double ultimaLatitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLatitud());
+            Double ultimaLongitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLongitud());
+
+            mascota.setLatitud(ultimaLatitud);
+            mascota.setLongitud(ultimaLongitud);
             mascotaRepository.save(mascota);
+
             return mascota;
         }
         return null;
