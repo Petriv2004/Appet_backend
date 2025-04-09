@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface PropietarioRepository extends JpaRepository<Propietario, Integer> {
     Optional<Propietario> findByCorreo(String correo);
 
+    List<Propietario> findByVeterinariosContaining(Propietario veterinario);
+
     @Query("SELECT m FROM Mascota m WHERE m.propietario IN " +
             "(SELECT p FROM Propietario p JOIN p.veterinarios v WHERE v.correo = :correoVeterinario)")
     List<Mascota> findMascotasByVeterinarioCorreo(@Param("correoVeterinario") String correoVeterinario);

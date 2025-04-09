@@ -144,4 +144,19 @@ public class AgendaService {
             }
         }
     }
+
+    public List<Agenda> obtenerAgendaMascotasDeVeterinario(String correoVeterinario) {
+        return agendaRepository.findAgendasByVeterinarioCorreoAndRazon(correoVeterinario, "Veterinario");
+    }
+
+    public Agenda cambiarEstadoAsistido(Integer idAgenda){
+        Optional <Agenda> citas = agendaRepository.findById(idAgenda);
+        if(citas.isPresent()){
+            Agenda cita = citas.get();
+            cita.setAsistencia(true);
+            agendaRepository.save(cita);
+            return cita;
+        }
+        return null;
+    }
 }

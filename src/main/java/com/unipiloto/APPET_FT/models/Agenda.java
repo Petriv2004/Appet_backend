@@ -33,6 +33,9 @@ public class Agenda {
     @Column
     private boolean estado;
 
+    @Column
+    private boolean asistencia;
+
     @ManyToOne
     @JsonBackReference(value = "MASCOTA-AGENDA")
     @JoinColumn(name = "id_mascota")
@@ -78,13 +81,21 @@ public class Agenda {
         this.descripcion = descripcion;
     }
 
+    public boolean isAsistencia() {
+        return asistencia;
+    }
+
+    public void setAsistencia(boolean asistencia) {
+        this.asistencia = asistencia;
+    }
+
     public boolean isEstado() {
         return estado;
     }
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    }
+    }    
 
     public Mascota getMascota() {
         return mascota;

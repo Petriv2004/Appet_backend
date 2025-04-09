@@ -76,4 +76,23 @@ public class AgendaController {
         }
         return ResponseEntity.ok(citas);
     }
+
+    @GetMapping("/citas-veterinario/{correo}")
+    public ResponseEntity<List<Agenda>> obtenerCitasVeterinario(@PathVariable String correo){
+        List<Agenda> citas = agendaService.obtenerAgendaMascotasDeVeterinario(correo);
+        if(!citas.isEmpty()){
+            return ResponseEntity.ok(citas);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/cambiar-asistido/{idAgenda}")
+    public ResponseEntity<Agenda> cambiarEstadoAsistido(@PathVariable Integer idAgenda){
+        Agenda cita = agendaService.cambiarEstadoAsistido(idAgenda);
+
+        if(cita != null){
+            return ResponseEntity.ok(cita);
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }
