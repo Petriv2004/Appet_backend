@@ -33,38 +33,40 @@ public class MascotaController {
     }
 
     @GetMapping("/obtener/{id}")
-    public ResponseEntity<Mascota> obtenerMascota(@PathVariable Integer id){
+    public ResponseEntity<Mascota> obtenerMascota(@PathVariable Integer id) {
         Mascota mascota = mascotaService.obtenerMascota(id);
-        if(mascota == null){
+        if (mascota == null) {
             return ResponseEntity.badRequest().build();
-        }else{
-            return  ResponseEntity.ok().body(mascota);
+        } else {
+            return ResponseEntity.ok().body(mascota);
         }
     }
 
     @GetMapping("/obtenerRitmo/{id}/{estado}")
-    public ResponseEntity<MascotaDTO> obtenerRitmocardiaco(@PathVariable Integer id, @PathVariable Integer estado){
-        MascotaDTO ritmoCardiaco = mascotaService.medirRitmoCardiaco(id,estado);
-        if(ritmoCardiaco == null){
+    public ResponseEntity<MascotaDTO> obtenerRitmocardiaco(@PathVariable Integer id, @PathVariable Integer estado) {
+        MascotaDTO ritmoCardiaco = mascotaService.medirRitmoCardiaco(id, estado);
+        if (ritmoCardiaco == null) {
             return ResponseEntity.badRequest().build();
-        }else{
-            return  ResponseEntity.ok().body(ritmoCardiaco);
+        } else {
+            return ResponseEntity.ok().body(ritmoCardiaco);
         }
     }
 
     @GetMapping("/recorridoPorFecha/{id_Mascota}/{fecha}")
-    public ResponseEntity<List<Recorrido>> recorridoPorFecha(@PathVariable Integer id_Mascota, @PathVariable Date fecha){
+    public ResponseEntity<List<Recorrido>> recorridoPorFecha(@PathVariable Integer id_Mascota,
+            @PathVariable Date fecha) {
         List<Recorrido> recorrido = mascotaService.recorridoPorFecha(id_Mascota, fecha);
-        if(recorrido != null){
+        if (recorrido != null) {
             return ResponseEntity.ok(recorrido);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/registrarRecorrido/{idMascota}")
-    public ResponseEntity<Recorrido> registrarrecorrido(@PathVariable Integer idMascota, @RequestBody Recorrido recorridoL){
+    public ResponseEntity<Recorrido> registrarrecorrido(@PathVariable Integer idMascota,
+            @RequestBody Recorrido recorridoL) {
         Recorrido recorrido = mascotaService.registrarRecorridos(idMascota, recorridoL);
-        if(recorrido != null){
+        if (recorrido != null) {
             return ResponseEntity.ok(recorrido);
         }
         return ResponseEntity.badRequest().build();
@@ -74,18 +76,27 @@ public class MascotaController {
     public ResponseEntity<UbicacionDTO> obtenerUbicacion(@PathVariable Integer idMascota) {
         Mascota mascota = mascotaService.actualizarUbicacion(idMascota);
         UbicacionDTO ubicacion = new UbicacionDTO(mascota.getLatitud(), mascota.getLongitud());
-
-        if(mascota != null){
+        if (mascota != null) {
             return ResponseEntity.ok(ubicacion);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/ritmos/{idMascota}/{fecha}")
-    public ResponseEntity<List<RitmoCardiaco>> obtenerRitmosPorFecha(@PathVariable int idMascota, @PathVariable Date fecha) {
-        List <RitmoCardiaco> ritmos = mascotaService.obtenerRitmosPorFecha(idMascota, fecha);
-        if(ritmos.size() > 0) {
+    public ResponseEntity<List<RitmoCardiaco>> obtenerRitmosPorFecha(@PathVariable int idMascota,
+            @PathVariable Date fecha) {
+        List<RitmoCardiaco> ritmos = mascotaService.obtenerRitmosPorFecha(idMascota, fecha);
+        if (ritmos.size() > 0) {
             return ResponseEntity.ok(ritmos);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/eliminar-mascota/{idMascota}")
+    public ResponseEntity<Mascota> eliminarMascota(@PathVariable Integer idMascota) {
+        Mascota mascota = mascotaService.eliminarMascota(idMascota);
+        if (mascota != null) {
+            return ResponseEntity.ok(mascota);
         }
         return ResponseEntity.badRequest().build();
     }

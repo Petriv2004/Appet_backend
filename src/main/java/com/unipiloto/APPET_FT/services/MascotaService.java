@@ -251,4 +251,13 @@ public class MascotaService {
         }
         return null;
     }
+
+    public Mascota eliminarMascota(Integer idMascota){
+        Optional <Mascota> mascota = mascotaRepository.findById(idMascota);
+        if(mascota.isPresent()){
+            mascotaRepository.deleteById(idMascota);
+            return mascota.get();
+        }
+        return null;
+    }
 }

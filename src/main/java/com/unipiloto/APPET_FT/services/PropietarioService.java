@@ -5,12 +5,14 @@ import com.unipiloto.APPET_FT.models.Mascota;
 import com.unipiloto.APPET_FT.models.Propietario;
 import com.unipiloto.APPET_FT.repositories.EjercicioRepository;
 import com.unipiloto.APPET_FT.repositories.PropietarioRepository;
+import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -197,4 +199,57 @@ public class PropietarioService {
     public String obtenerNombrePorCorreo(String correo) {
         return propietarioRepository.findNombreByCorreo(correo);
     }
+
+    @Transactional
+    public Map<String, String> eliminarCuenta(String correo) {
+        Optional<Propietario> propietarioOpt = propietarioRepository.findByCorreo(correo);
+        if (propietarioOpt.isPresent()) {
+            Propietario propietario = propietarioOpt.get();
+            
+            List<Propietario> propietariosConVeterinario = propietarioRepository.findByVeterinariosContaining(propietario);
+            for (Propietario p : propietariosConVeterinario) {
+                if(p.getVeterinarios() != null) {
+                    p.getVeterinarios().remove(propietario);
+                }
+            }
+            if (propietario.getVeterinarios() != null) {
+                propietario.getVeterinarios().clear();
+            }
+            propietarioRepository.delete(propietario);
+            Map<String, String> respuesta = new HashMap<>();
+            respuesta.put("Nombre", propietario.getNombre());
+            respuesta.put("Mensaje", "Cuenta eliminada con éxito.");
+            return respuesta;
+        }
+        return null;
+    }
+
+    public Propietario actualizarDatos(String correo, Propietario propietario){
+        Optional<Propietario> propietarios = propietarioRepository.findByCorreo(correo);
+        if(propietarios.isPresent()){
+            Propietario propietarioNuevo = propietarios.get();
+            propietarioNuevo.setCorreo(propietario.getCorreo());
+            propietarioNuevo.setNombre(propietario.getNombre());
+            propietarioNuevo.setCelular(propietario.getCelular());
+            propietarioNuevo.setDireccion(propietario.getDireccion());
+            propietarioNuevo.setGenero(propietario.getGenero());
+            propietarioRepository.save(propietarioNuevo);
+            return propietarioNuevo;
+        }
+        return null;
+    }
+
+    public Propietario actualizarContrasena(Propietario propietario){
+        Optional <Propietario> propietarios = propietarioRepository.findByCorreo(propietario.getCorreo());
+        if(propietarios.isPresent()){
+            Propietario propietarioNuevo = propietarios.get();
+            String hashedPassword = BCrypt.hashpw(propietario.getContrasena(), BCrypt.gensalt(12));
+            propietarioNuevo.setContrasena(hashedPassword);
+            propietarioRepository.save(propietarioNuevo);
+            return propietarioNuevo;
+        }
+        return null;
+    }
 }
+
+

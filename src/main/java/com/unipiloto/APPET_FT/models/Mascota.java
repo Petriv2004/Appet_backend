@@ -51,7 +51,7 @@ public class Mascota {
     @JsonBackReference(value = "MASCOTA-PROPIETARIO")
     private Propietario propietario;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_HISTORIAL", referencedColumnName = "id_historial")
     @JsonManagedReference(value = "MASCOTA-HISTORIAL")
     private Historial historial;

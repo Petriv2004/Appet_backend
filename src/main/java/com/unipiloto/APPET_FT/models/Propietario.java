@@ -38,15 +38,15 @@ public class Propietario {
     @Column
     private String rol;
 
-    @OneToMany(mappedBy = "propietario")
+    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "MASCOTA-PROPIETARIO")
     private List<Mascota> macotasList;
 
-    @OneToMany(mappedBy = "propietario")
+    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "EJERCICIO-PROPIETARIO")
     private List<Ejercicio> ejercicioslist;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "PROPIETARIO_VETERINARIO",
             joinColumns = @JoinColumn(name = "id_propietario"),
