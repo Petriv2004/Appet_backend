@@ -1,5 +1,6 @@
 package com.unipiloto.APPET_FT.controllers;
 
+import com.unipiloto.APPET_FT.dtos.AgendaVeterinarioDTO;
 import com.unipiloto.APPET_FT.models.Agenda;
 import com.unipiloto.APPET_FT.services.AgendaService;
 import com.unipiloto.APPET_FT.services.EmailService;
@@ -78,8 +79,8 @@ public class AgendaController {
     }
 
     @GetMapping("/citas-veterinario/{correo}")
-    public ResponseEntity<List<Agenda>> obtenerCitasVeterinario(@PathVariable String correo){
-        List<Agenda> citas = agendaService.obtenerAgendaMascotasDeVeterinario(correo);
+    public ResponseEntity<List<AgendaVeterinarioDTO>> obtenerCitasVeterinario(@PathVariable String correo){
+        List<AgendaVeterinarioDTO> citas = agendaService.obtenerAgendaMascotasDeVeterinario(correo);
         if(!citas.isEmpty()){
             return ResponseEntity.ok(citas);
         }

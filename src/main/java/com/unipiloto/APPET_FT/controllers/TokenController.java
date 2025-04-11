@@ -38,7 +38,7 @@ public class TokenController {
             String mensajeCorreo = "Hola, " + propietario.getNombre() + ".\n\n"
                     + "Has solicitado un token de verificación. Por favor, utiliza el siguiente para continuar con el proceso:\n\n"
                     + token + "\n\n"
-                    + "Este token es válido por 5 minutos. Si no has solicitado la recuperación de tu contraseña, ignora este mensaje.\n\n"
+                    + "Este token es válido por 5 minutos. Si no has solicitado un token de verificación, ignora este mensaje.\n\n"
                     + "Saludos,\n"
                     + "El equipo de APPET.";
             emailService.enviarCorreo(correo, "Token de verificación", mensajeCorreo);

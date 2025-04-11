@@ -1,5 +1,6 @@
 package com.unipiloto.APPET_FT.services;
 
+import com.unipiloto.APPET_FT.dtos.AgendaVeterinarioDTO;
 import com.unipiloto.APPET_FT.models.Agenda;
 import com.unipiloto.APPET_FT.models.Mascota;
 import com.unipiloto.APPET_FT.models.Propietario;
@@ -145,8 +146,16 @@ public class AgendaService {
         }
     }
 
-    public List<Agenda> obtenerAgendaMascotasDeVeterinario(String correoVeterinario) {
-        return agendaRepository.findAgendasByVeterinarioCorreoAndRazon(correoVeterinario, "Veterinario");
+    public List<AgendaVeterinarioDTO> obtenerAgendaMascotasDeVeterinario(String correoVeterinario) {
+        List<Agenda> agendas = agendaRepository.findAgendasByVeterinarioCorreoAndRazon(correoVeterinario, "Veterinario");
+        List <AgendaVeterinarioDTO> respuesta = new ArrayList<>();
+        for(Agenda a : agendas){
+            Mascota mascotaAgenda = a.getMascota();
+            Optional <Mascota> mascotas = mascotaRepository.findById(mascotaAgenda.getId_mascota());
+            Mascota mascota = mascotas.get();
+            respuesta.add(new AgendaVeterinarioDTO(a.getId_agenda(), a.getFecha(), a.getHora(), a.getRazon(), a.getDescripcion(), a.isAsistencia(), mascota.getNombre()));
+        }
+        return respuesta;
     }
 
     public Agenda cambiarEstadoAsistido(Integer idAgenda){
