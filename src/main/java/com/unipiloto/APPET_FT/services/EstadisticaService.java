@@ -117,7 +117,6 @@ public class EstadisticaService {
         if (recorridos == null || recorridos.isEmpty()) {
             return 0.0;
         }
-
         double totalKm = 0.0;
         Recorrido prev = null;
         for (Recorrido actual : recorridos) {
