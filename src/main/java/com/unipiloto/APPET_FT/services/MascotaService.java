@@ -88,6 +88,23 @@ public class MascotaService {
         return null;
     }
 
+    public Mascota actualizarMascota(int id, Mascota mascotaNueva){
+        Optional<Mascota> mascotas = mascotaRepository.findById(id);
+        if(mascotas.isPresent()){
+            Mascota mascota = mascotas.get();
+            mascota.setNombre(mascotaNueva.getNombre());
+            mascota.setEspecie(mascotaNueva.getEspecie());
+            mascota.setTipo(mascotaNueva.getEspecie());
+            mascota.setFecha_nacimiento(mascotaNueva.getFecha_nacimiento());
+            mascota.setRaza(mascotaNueva.getRaza());
+            mascota.setTamanio(mascotaNueva.getTamanio());
+            mascota.setSexo(mascotaNueva.getSexo());
+            mascotaRepository.save(mascota);
+            return mascota;
+        }
+        return null;
+    }
+
     public List<RitmoCardiaco> obtenerRitmosPorFecha(int idMascota, Date fecha) {
         return ritmoCardiacoRepository.findByMascotaIdAndFecha(idMascota, fecha);
     }

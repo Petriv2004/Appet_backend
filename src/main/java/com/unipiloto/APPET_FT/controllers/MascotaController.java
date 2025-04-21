@@ -42,6 +42,16 @@ public class MascotaController {
         }
     }
 
+    @PutMapping("/actualizar-mascota/{id}")
+    public ResponseEntity<Mascota> actualizarMascota(@RequestBody Mascota mascotaNueva, @PathVariable Integer id) {
+        Mascota mascota = mascotaService.actualizarMascota(id, mascotaNueva);
+        if (mascota == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            return ResponseEntity.ok().body(mascota);
+        }
+    }
+
     @GetMapping("/obtenerRitmo/{id}/{estado}")
     public ResponseEntity<MascotaDTO> obtenerRitmocardiaco(@PathVariable Integer id, @PathVariable Integer estado) {
         MascotaDTO ritmoCardiaco = mascotaService.medirRitmoCardiaco(id, estado);

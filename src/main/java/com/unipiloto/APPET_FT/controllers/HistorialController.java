@@ -38,4 +38,22 @@ public class HistorialController {
         }
         return ResponseEntity.ok().body(respuesta);
     }
+
+    @GetMapping("/obtener/{idMascota}")
+    public ResponseEntity<Historial> obtenerHistorial(@PathVariable Integer idMascota) {
+        Historial respuesta = historialService.obtenerHistorial(idMascota);
+        if (respuesta == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(respuesta);
+    }
+
+    @DeleteMapping("/eliminar/{idMascota}")
+    public ResponseEntity<Historial> eliminarHistorial(@PathVariable Integer idMascota) {
+        Historial respuesta = historialService.eliminarHistorial(idMascota);
+        if (respuesta == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(respuesta);
+    }
 }
