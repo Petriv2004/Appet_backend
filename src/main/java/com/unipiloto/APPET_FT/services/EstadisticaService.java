@@ -84,7 +84,6 @@ public class EstadisticaService {
         }
         return null;
     }
-
     /**
      * Retorna la mascota más sedentaria de un propietario en un mes y año
      * específicos.
@@ -115,7 +114,7 @@ public class EstadisticaService {
     public double obtenerTotalKmRecorridos(Integer mascotaId, Date fecha) {
         List<Recorrido> recorridos = recorridoRepository.findRecorridosByMascotaAndFecha(mascotaId, fecha);
         if (recorridos == null || recorridos.isEmpty()) {
-            return 0.0;
+            return -1.0;
         }
         double totalKm = 0.0;
         Recorrido prev = null;
@@ -129,7 +128,6 @@ public class EstadisticaService {
             }
             prev = actual;
         }
-
         return totalKm;
     }
 

@@ -66,7 +66,7 @@ public class EstadisticaController {
     @GetMapping("/recorridoKm/{idMascota}/{fecha}")
     public ResponseEntity<Map<String, Double>> recorridoKm(@PathVariable Integer idMascota, @PathVariable Date fecha) {
         double kilometros = estadisticaService.obtenerTotalKmRecorridos(idMascota, fecha);
-        if (kilometros != 0.0) {
+        if (kilometros != -1.0) {
             Map<String, Double> respuesta = new HashMap<>();
             respuesta.put("kilometros", kilometros);
             return ResponseEntity.ok(respuesta);
