@@ -256,12 +256,12 @@ public class MascotaService {
             Mascota mascota = mascotaOpt.get();
             Date hoy = Date.valueOf(LocalDate.now());
             List<Recorrido> recorridosExistentes = recorridoRepository.findByMascotaAndFecha(idMascota, hoy);
-
-            Double ultimaLatitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLatitud());
+            if(recorridosExistentes.size() > 0){
+                Double ultimaLatitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLatitud());
             Double ultimaLongitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLongitud());
-
             mascota.setLatitud(ultimaLatitud);
             mascota.setLongitud(ultimaLongitud);
+            }
             mascotaRepository.save(mascota);
 
             return mascota;
