@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-
 @Service
 public class MascotaService {
     @Autowired
@@ -32,7 +31,8 @@ public class MascotaService {
     @Autowired
     private RitmoCardiacoRepository ritmoCardiacoRepository;
 
-    public MascotaService(MascotaRepository mascotaRepository, HistorialRepository historialRepository, RecorridoRepository recorridoRepository, RitmoCardiacoRepository ritmoCardiacoRepository) {
+    public MascotaService(MascotaRepository mascotaRepository, HistorialRepository historialRepository,
+            RecorridoRepository recorridoRepository, RitmoCardiacoRepository ritmoCardiacoRepository) {
         this.mascotaRepository = mascotaRepository;
         this.historialRepository = historialRepository;
         this.recorridoRepository = recorridoRepository;
@@ -66,10 +66,10 @@ public class MascotaService {
             if (datosActualizados.getFoto() != null) {
                 historial.setFoto(datosActualizados.getFoto());
             }
-            if(datosActualizados.getVacunas() != null){
+            if (datosActualizados.getVacunas() != null) {
                 historial.setVacunas(datosActualizados.getVacunas());
             }
-            if(datosActualizados.getCirugias() != null){
+            if (datosActualizados.getCirugias() != null) {
                 historial.setCirugias(datosActualizados.getCirugias());
             }
             historialRepository.save(historial);
@@ -79,18 +79,18 @@ public class MascotaService {
         }
     }
 
-    public Mascota obtenerMascota(int id){
+    public Mascota obtenerMascota(int id) {
         Optional<Mascota> mascota = mascotaRepository.findById(id);
 
-        if(mascota.isPresent()){
+        if (mascota.isPresent()) {
             return mascota.get();
         }
         return null;
     }
 
-    public Mascota actualizarMascota(int id, Mascota mascotaNueva){
+    public Mascota actualizarMascota(int id, Mascota mascotaNueva) {
         Optional<Mascota> mascotas = mascotaRepository.findById(id);
-        if(mascotas.isPresent()){
+        if (mascotas.isPresent()) {
             Mascota mascota = mascotas.get();
             mascota.setNombre(mascotaNueva.getNombre());
             mascota.setEspecie(mascotaNueva.getEspecie());
@@ -137,7 +137,7 @@ public class MascotaService {
             ritmo.setHora(horaActual);
             ritmoCardiacoRepository.save(ritmo);
 
-            MascotaDTO mascotaDTO= new MascotaDTO(tipo, tamanio, ritmoCardiaco);
+            MascotaDTO mascotaDTO = new MascotaDTO(tipo, tamanio, ritmoCardiaco);
             return mascotaDTO;
         }
         return null;
@@ -161,18 +161,18 @@ public class MascotaService {
         return mascotaRepository.findCorreoByIdMascota(idMascota);
     }
 
-    public List<Recorrido> recorridoPorFecha(Integer id_Mascota, Date fecha){
+    public List<Recorrido> recorridoPorFecha(Integer id_Mascota, Date fecha) {
         Optional<Mascota> mascota = mascotaRepository.findById(id_Mascota);
-        if(mascota.isPresent()){
+        if (mascota.isPresent()) {
             List<Recorrido> recorridosExistentes = recorridoRepository.findByMascotaAndFecha(id_Mascota, fecha);
             if (!recorridosExistentes.isEmpty()) {
                 return recorridosExistentes;
             }
             Random random = new Random();
-            if(random.nextBoolean()){
+            if (random.nextBoolean()) {
                 int saberRecorrido = random.nextInt(5) + 1;
                 ArrayList<Recorrido> recorrido = (ArrayList<Recorrido>) recorridosPredeterminados(saberRecorrido);
-                for(Recorrido r : recorrido){
+                for (Recorrido r : recorrido) {
                     r.setFecha(fecha);
                     r.setMascota(mascota.get());
                 }
@@ -184,9 +184,9 @@ public class MascotaService {
         return null;
     }
 
-    private List<Recorrido> recorridosPredeterminados(int recorrido){
-        List <Recorrido> recorrido1 = new ArrayList<>();
-        switch (recorrido){
+    private List<Recorrido> recorridosPredeterminados(int recorrido) {
+        List<Recorrido> recorrido1 = new ArrayList<>();
+        switch (recorrido) {
             case 1:
                 recorrido1.add(new Recorrido("4.728827732343978", "-74.2593390495657", "Permitido"));
                 recorrido1.add(new Recorrido("4.726785497118797", "-74.26074452706382", "Permitido"));
@@ -243,8 +243,8 @@ public class MascotaService {
         java.sql.Date fechaSql = java.sql.Date.valueOf(fechaLocal);
 
         Mascota mascota = mascotaOpt.get();
-            recorrido.setMascota(mascota);
-            recorrido.setFecha(fechaSql);
+        recorrido.setMascota(mascota);
+        recorrido.setFecha(fechaSql);
         recorridoRepository.save(recorrido);
         return recorrido;
     }
@@ -256,22 +256,25 @@ public class MascotaService {
             Mascota mascota = mascotaOpt.get();
             Date hoy = Date.valueOf(LocalDate.now());
             List<Recorrido> recorridosExistentes = recorridoRepository.findByMascotaAndFecha(idMascota, hoy);
-            if(recorridosExistentes.size() > 0){
-                Double ultimaLatitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLatitud());
-            Double ultimaLongitud = Double.parseDouble(recorridosExistentes.get(recorridosExistentes.size()-1).getLongitud());
-            mascota.setLatitud(ultimaLatitud);
-            mascota.setLongitud(ultimaLongitud);
+            
+            if (recorridosExistentes.size() > 0) {
+                Double ultimaLatitud = Double
+                        .parseDouble(recorridosExistentes.get(recorridosExistentes.size() - 1).getLatitud());
+                Double ultimaLongitud = Double
+                        .parseDouble(recorridosExistentes.get(recorridosExistentes.size() - 1).getLongitud());
+                mascota.setLatitud(ultimaLatitud);
+                mascota.setLongitud(ultimaLongitud);
+                mascotaRepository.save(mascota);
             }
-            mascotaRepository.save(mascota);
 
             return mascota;
         }
         return null;
     }
 
-    public Mascota eliminarMascota(Integer idMascota){
-        Optional <Mascota> mascota = mascotaRepository.findById(idMascota);
-        if(mascota.isPresent()){
+    public Mascota eliminarMascota(Integer idMascota) {
+        Optional<Mascota> mascota = mascotaRepository.findById(idMascota);
+        if (mascota.isPresent()) {
             mascotaRepository.deleteById(idMascota);
             return mascota.get();
         }
