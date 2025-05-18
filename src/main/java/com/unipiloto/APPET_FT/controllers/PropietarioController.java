@@ -271,7 +271,7 @@ public class PropietarioController {
                     + "Si realizaste este cambio, ya puedes iniciar sesión con tu nueva contraseña. \n\n"
                     + "¡Gracias por confiar en nosotros!";
 
-            emailService.enviarCorreo(propietarioR.getCorreo(), "Cambio de Contraseña Exitoso,.", mensajeCorreo);
+            emailService.enviarCorreo(propietarioR.getCorreo(), "Cambio de Contraseña Exitoso.", mensajeCorreo);
             return ResponseEntity.ok(propietario);
         }
         return ResponseEntity.badRequest().build();
