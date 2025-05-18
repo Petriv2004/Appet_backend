@@ -1,0 +1,39 @@
+## YAML Template.
+---
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/appet
+    username: postgres
+    password: Nacionalcampeon04.
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: appet768@gmail.com
+    password: sykw khfo fblw aqcm
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 60000  
+          timeout: 60000              
+          writetimeout: 60000        
+
+server:
+  tomcat:
+    max-threads: 500
+    accept-count: 500
+    max-connections: 1000
+    connection-timeout: 10s

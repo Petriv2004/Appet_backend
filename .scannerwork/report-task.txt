@@ -1,0 +1,6 @@
+projectKey=springboot-modificabilidad
+serverUrl=http://localhost:9000
+serverVersion=25.5.0.107428
+dashboardUrl=http://localhost:9000/dashboard?id=springboot-modificabilidad
+ceTaskId=672b4bba-ee85-47d1-b589-ff28772610d8
+ceTaskUrl=http://localhost:9000/api/ce/task?id=672b4bba-ee85-47d1-b589-ff28772610d8
